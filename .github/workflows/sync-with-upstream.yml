@@ -12,13 +12,14 @@ jobs:
         env:
           UPSTREAM_URL: https://github.com/gpakosz/.tmux.git
         run: |
-          git remote add upstream "$UPSTREAM_URL"
-          git fetch --all
+          git remote add -f upstream "$UPSTREAM_URL"
+          git remote -v
+          git branch --all
+          git config --list
       - name: Merge with upstream
         run: |
           git config --local user.email "sync-upstream+bot@users.noreply.github.com"
           git config --local user.name "Sync Upsteam Bot"
-          git diff upstream/master
           git merge upstream/master
       - name: Push changes
         uses: ad-m/github-push-action@master
