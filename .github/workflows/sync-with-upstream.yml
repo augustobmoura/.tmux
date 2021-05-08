@@ -1,0 +1,25 @@
+name: Sync this fork with the upstream repo
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 0 0 * * *
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup upstream remote
+        env:
+          UPSTREAM_URL: https://github.com/gpakosz/.tmux.git
+        run: |
+          git remote add upstream "$UPSTREAM_URL"
+          git fetch upstream
+      - name: Merge with upstream
+        run: |
+          git config --local user.email "sync-upstream+bot@users.noreply.github.com"
+          git config --local user.name "Sync Upsteam Bot"
+          git merge upstream/master
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
