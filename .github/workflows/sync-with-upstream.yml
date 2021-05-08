@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup upstream remote
+      - name: Merge with upstream
         env:
           UPSTREAM_URL: https://github.com/gpakosz/.tmux.git
         run: |
@@ -16,8 +16,6 @@ jobs:
           git remote -v
           git branch --all
           git config --list
-      - name: Merge with upstream
-        run: |
           git config --local user.email "sync-upstream+bot@users.noreply.github.com"
           git config --local user.name "Sync Upsteam Bot"
           git merge upstream/master
